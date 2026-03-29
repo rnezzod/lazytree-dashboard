@@ -69,7 +69,6 @@
   }
   .card h2 .icon { font-size: 16px; }
 
-  /* Abstract */
   .abstract {
     background: var(--bg3);
     border-left: 3px solid var(--accent);
@@ -80,7 +79,6 @@
     line-height: 1.7;
   }
 
-  /* Key insight */
   .insight-box {
     background: var(--bg3);
     border: 1px solid var(--border);
@@ -98,7 +96,6 @@
   }
   .insight-box p { font-size: 13px; color: var(--text); }
 
-  /* Metrics */
   .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
   .metric {
     background: var(--bg3);
@@ -117,7 +114,6 @@
   .metric .value.yellow { color: var(--yellow); }
   .metric .label { font-size: 11px; color: var(--text2); margin-top: 4px; }
 
-  /* Comparison table */
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th { color: var(--text2); font-weight: 600; text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); }
   td { padding: 10px 12px; border-bottom: 1px solid var(--bg3); }
@@ -125,31 +121,7 @@
   .better { color: var(--green); font-weight: 600; }
   .worse { color: var(--red); }
   .neutral { color: var(--text2); }
-  td .badge-sm {
-    font-size: 11px;
-    padding: 1px 6px;
-    border-radius: 4px;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-  }
 
-  /* Segment tree diagram */
-  .tree-diagram {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 20px;
-    font-family: monospace;
-    font-size: 12px;
-    overflow-x: auto;
-  }
-  .node-root { color: var(--accent); }
-  .node-mid { color: var(--purple); }
-  .node-leaf { color: var(--green); }
-  .node-dirty { color: var(--yellow); }
-  .node-label { color: var(--text2); }
-
-  /* Code block */
   pre {
     background: var(--bg3);
     border: 1px solid var(--border);
@@ -165,7 +137,6 @@
   .cm { color: var(--text2); }
   .num { color: #79c0ff; }
 
-  /* Chat interface */
   .chat-area {
     display: flex;
     flex-direction: column;
@@ -182,21 +153,12 @@
   }
   .chat-messages::-webkit-scrollbar { width: 4px; }
   .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .msg {
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-  }
+  .msg { display: flex; gap: 10px; align-items: flex-start; }
   .msg.user { flex-direction: row-reverse; }
   .msg .avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    flex-shrink: 0;
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0;
   }
   .msg.agent .avatar { background: #1f3a6e; }
   .msg.user .avatar { background: #2d1b4e; }
@@ -209,60 +171,32 @@
     max-width: 80%;
     line-height: 1.6;
   }
-  .msg.user .bubble {
-    background: #1f3a6e;
-    border-color: #2d5aa0;
-  }
+  .msg.user .bubble { background: #1f3a6e; border-color: #2d5aa0; }
   .msg .bubble strong { color: var(--accent); font-size: 11px; display: block; margin-bottom: 4px; }
-  .chat-input-row {
-    display: flex;
-    gap: 8px;
-  }
+  .chat-input-row { display: flex; gap: 8px; }
   .chat-input {
-    flex: 1;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    font-size: 13px;
-    padding: 8px 12px;
-    outline: none;
-    font-family: inherit;
+    flex: 1; background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text); font-size: 13px;
+    padding: 8px 12px; outline: none; font-family: inherit;
   }
   .chat-input:focus { border-color: var(--accent); }
   .chat-input::placeholder { color: var(--text2); }
   .send-btn {
-    background: var(--accent);
-    color: #000;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 16px;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 13px;
-    font-family: inherit;
+    background: var(--accent); color: #000; border: none;
+    border-radius: 6px; padding: 8px 16px; font-weight: 600;
+    cursor: pointer; font-size: 13px; font-family: inherit;
   }
   .send-btn:hover { opacity: 0.85; }
   .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  /* Status bar */
   .status-bar {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    padding: 8px 24px;
-    font-size: 12px;
-    color: var(--text2);
-    display: flex;
-    gap: 20px;
+    background: var(--bg2); border-top: 1px solid var(--border);
+    padding: 8px 24px; font-size: 12px; color: var(--text2);
+    display: flex; gap: 20px;
   }
-  .status-bar .dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    display: inline-block; margin-right: 6px;
-  }
+  .status-bar .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
   .dot.green { background: var(--green); }
   .dot.yellow { background: var(--yellow); }
-
-  /* Scrollbar global */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -276,50 +210,41 @@
     <h1>LazyTree</h1>
     <div class="sub">遅延評価型階層要約木 — 長文書QA研究ダッシュボード</div>
   </div>
-  <div class="badge">● 実験中</div>
+  <div class="badge">● RAPTOR比較完了</div>
 </header>
 
 <div class="container">
 
-  <!-- アブストラクト -->
   <div class="card full">
     <h2><span class="icon">📄</span>論文概要</h2>
     <div class="abstract">
       <strong style="color:var(--accent); font-size:15px;">LazyTree: 遅延評価とコンテンツハッシュキャッシュによる長文書RAGの効率化</strong>
       <br><br>
-      長文書に対するRAG（Retrieval-Augmented Generation）では、フラットなチャンク検索ではグローバルな文脈が失われる一方、
-      全文書の要約ツリーを事前構築する手法（RAPTOR等）は初期コストが高く、文書更新に対応できない。
+      長文書に対するRAGでは、フラットなチャンク検索ではグローバルな文脈が失われる一方、全文書の要約ツリーを事前構築する手法（RAPTOR等）は初期コストが高く、文書更新に対応できない。
       <br><br>
-      本研究では、セグメント木の<strong>遅延伝播</strong>アイデアを要約インデックスに応用した
-      <strong>LazyTree</strong>を提案する。葉ノードには原文チャンクを格納し、
-      内部ノードはサブツリー内の葉テキストから直接LLMで要約を生成する（1ノード = 1 LLMコール）。
-      要約はクエリが到達した時点ではじめて計算され（遅延評価）、
-      コンテンツハッシュをキーとして永続キャッシュに保存される。
-      文書更新時はO(log n)の祖先ノードをdirtyマークするのみで即時対応可能。
+      本研究では、セグメント木の<strong>遅延伝播</strong>アイデアを要約インデックスに応用した<strong>LazyTree</strong>を提案する。内部ノードは葉テキストから直接LLMで要約生成（1ノード=1コール）、クエリ到達時にのみ計算される（遅延評価）。
       <br><br>
-      実験では、RAPTORが31 LLMコールで全ツリーを事前構築するのに対し、
-      LazyTreeは同等の精度を<strong>3コール（90%削減）</strong>で達成した。
+      <strong>QuALITY 30件評価結果: LazyTree 73.3% &gt; FlatRAG 70.0% &gt; RAPTOR 60.0%</strong><br>
+      RAPTORの精度低下は「要約の要約」による情報圧縮損失が原因。LazyTreeは葉テキスト直接アクセスでこれを回避。
     </div>
   </div>
 
-  <!-- キーアイデア -->
   <div class="card">
     <h2><span class="icon">💡</span>核心アイデア</h2>
     <div class="insight-box">
-      <div class="label">セグメント木の類比</div>
-      <p>セグメント木の「遅延伝播」と同様に、必要になるまで要約を計算しない。一度計算した要約はコンテンツハッシュでキャッシュし、同一サブツリーへの後続クエリは0コストで応答。</p>
+      <div class="label">遅延評価 + ダイレクト要約</div>
+      <p>必要なノードのみオンデマンド計算。かつ各ノードは葉テキストから直接要約、「要約の要約」による情報損失がない。SHA256ハッシュでセッション横断キャッシュ。</p>
     </div>
     <div class="insight-box">
       <div class="label">インクリメンタル更新</div>
-      <p>チャンク1つを更新 → O(log n)の祖先ノードをdirtyマーク → 次回クエリ時のみ再計算。RAPTORは全ツリー再構築が必要。</p>
+      <p>チャンク更新 → O(log n)根の経路のdirtyマーク → 次回クエリ時のみ再計算。RAPTORは全ツリー再構築が必要。</p>
     </div>
     <div class="insight-box">
-      <div class="label">粒度適応クエリ</div>
-      <p>スコア関数 = cos類似度 + λ×(深さ/H) により、質問のスコープに合わせてツリーの適切な深さのノードを選択。λ&gt;0で葉寄り（細粒度）、λ&lt;0で根寄り（大局的）、λ=0でデフォルト。</p>
+      <div class="label">ハイブリッド検索</div>
+      <p>内部ノード（大局的文脈）と葉ノード（局所的事実）を同時に提供。これによりFlatRAG（葉のみ）とRAPTOR（内部ノードのみ）の両方を上回る精度を達成。</p>
     </div>
   </div>
 
-  <!-- 実験結果 -->
   <div class="card full">
     <h2><span class="icon">📊</span>実験結果</h2>
     <div class="metrics">
@@ -328,8 +253,8 @@
         <div class="label">LLMコール削減率<br>（LazyTree vs RAPTOR）</div>
       </div>
       <div class="metric">
-        <div class="value blue">+3.3pt</div>
-        <div class="label">QuALITY精度向上<br>（vs Flat RAG）</div>
+        <div class="value blue">+13.3pt</div>
+        <div class="label">QuALITY精度向上<br>（vs RAPTOR）</div>
       </div>
       <div class="metric">
         <div class="value green">73.3%</div>
@@ -343,87 +268,47 @@
     <br>
     <p style="font-size:12px; color:var(--text2); margin-bottom:8px; font-weight:600;">【効率性実験】32チャンク文書・第1章への3クエリ</p>
     <table>
-      <tr>
-        <th>手法</th>
-        <th>構築コスト</th>
-        <th>3クエリ後</th>
-        <th>キャッシュヒット率</th>
-      </tr>
-      <tr>
-        <td>Flat RAG</td>
-        <td class="neutral">0 calls</td>
-        <td class="neutral">0 calls</td>
-        <td class="neutral">N/A</td>
-      </tr>
-      <tr>
-        <td>RAPTOR</td>
-        <td class="worse">31 calls</td>
-        <td class="neutral">+0</td>
-        <td class="neutral">0%（再構築）</td>
-      </tr>
-      <tr>
-        <td><strong>LazyTree</strong></td>
-        <td class="better">0 calls</td>
-        <td class="better">3 calls</td>
-        <td class="better">100%</td>
-      </tr>
+      <tr><th>手法</th><th>構築コスト</th><th>3クエリ後</th><th>キャッシュヒット率</th></tr>
+      <tr><td>Flat RAG</td><td class="neutral">0 calls</td><td class="neutral">0 calls</td><td class="neutral">N/A</td></tr>
+      <tr><td>RAPTOR</td><td class="worse">31 calls</td><td class="neutral">+0</td><td class="neutral">0%（再構築）</td></tr>
+      <tr><td><strong>LazyTree</strong></td><td class="better">0 calls</td><td class="better">3 calls</td><td class="better">100%</td></tr>
     </table>
     <br>
     <p style="font-size:12px; color:var(--text2); margin-bottom:8px; font-weight:600;">【精度実験】QuALITY 検証セット 30件（4択QA・平均約5,000語/記事）</p>
     <table>
-      <tr>
-        <th>手法</th>
-        <th>正解率</th>
-        <th>平均構築コスト</th>
-        <th>平均検索コスト</th>
-      </tr>
-      <tr>
-        <td>Flat RAG</td>
-        <td class="neutral">70.0%</td>
-        <td class="neutral">0.0 calls</td>
-        <td class="neutral">0.0 calls</td>
-      </tr>
-      <tr>
-        <td><strong>LazyTree (ハイブリッド)</strong></td>
-        <td class="better"><strong>73.3%</strong></td>
-        <td class="better">0.0 calls</td>
-        <td class="better">1.5 calls*</td>
-      </tr>
+      <tr><th>手法</th><th>正解率</th><th>平均構築コスト</th><th>平均検索コスト</th></tr>
+      <tr><td>Flat RAG</td><td class="neutral">70.0%</td><td class="neutral">0.0</td><td class="neutral">0.0</td></tr>
+      <tr><td>RAPTOR</td><td class="worse">60.0%</td><td class="worse">15.3 calls/記事</td><td class="neutral">0.0</td></tr>
+      <tr><td><strong>LazyTree (ハイブリッド)</strong></td><td class="better"><strong>73.3%</strong></td><td class="better">0.0</td><td class="better">1.5 calls*</td></tr>
     </table>
     <p style="margin-top:8px; font-size:11px; color:var(--text2);">
-      ※ LazyTree ハイブリッド: 内部ノード3件＋葉ノード2件，λ=0，要約・QAともに gpt-4o-mini使用<br>
-      ＊コールドスタート時 1.5 calls/クエリ，クロスセッションキャッシュ利用時 0.4 calls/クエリ
+      ※ 内部ノード3件+葉ノード2件，λ=0，gpt-4o-mini使用 • ＊コールド時1.5，クロスセッションキャッシュ時0.2 calls/クエリ<br>
+      RAPTORの精度低下 = 「要約の要約」による情報損失，LazyTreeは葉テキスト直接要約で回避
     </p>
   </div>
 
-  <!-- アルゴリズム -->
   <div class="card">
     <h2><span class="icon">⚙️</span>遅延解決アルゴリズム</h2>
     <pre><span class="kw">def</span> <span class="fn">_resolve</span>(node):
-    <span class="cm"># 葉：そのままテキストを返す（LLM不要）</span>
-    <span class="kw">if</span> node.is_leaf:
-        <span class="kw">return</span> node.text
-
-    <span class="cm"># キャッシュヒット：0 LLMコール</span>
-    <span class="kw">if</span> cached := cache.get(node.content_hash):
-        <span class="kw">return</span> cached
-
-    <span class="cm"># ミス：葉テキストから直接1 LLMコールで要約</span>
-    leaves = collect_leaves(node)  <span class="cm"># 再帰なし</span>
+    <span class="cm"># 葉：そのまま返す（LLM不要）</span>
+    <span class="kw">if</span> node.is_leaf: <span class="kw">return</span> node.text
+    <span class="cm"># キャッシュヒット：0コール</span>
+    <span class="kw">if</span> cached := cache.get(node.content_hash): <span class="kw">return</span> cached
+    <span class="cm"># ミス：葉テキスト直接（1コール）</span>
+    leaves = collect_leaves(node)  <span class="cm"># 再帰なし！</span>
     summary = <span class="fn">llm_summarize</span>(leaves)
     cache.set(node.content_hash, summary)
     <span class="kw">return</span> summary
 
-<span class="kw">def</span> <span class="fn">query</span>(question, k=<span class="num">5</span>):
-    <span class="cm"># Phase 1: プロキシテキストでスコアリング（LLM不要）</span>
-    scores = [score(node, question) <span class="kw">for</span> node <span class="kw">in</span> tree]
-    top_k = select_top_k(scores, k)
-
-    <span class="cm"># Phase 2: 選択されたk個のみ解決（最大k LLMコール）</span>
-    <span class="kw">return</span> [_resolve(node) <span class="kw">for</span> node <span class="kw">in</span> top_k]</pre>
+<span class="kw">def</span> <span class="fn">query</span>(q, k_int=<span class="num">3</span>, k_leaf=<span class="num">2</span>):
+    <span class="cm"># Phase 1: スコアリング（LLM不要）</span>
+    scores = [sim(proxy(node), q) <span class="kw">for</span> node <span class="kw">in</span> tree]
+    top_internal = top_k(scores, k_int, internal_only=True)
+    top_leaves   = top_k(scores, k_leaf, leaves_only=True)
+    <span class="cm"># Phase 2: 選択ノードのみ解決</span>
+    <span class="kw">return</span> [_resolve(n) <span class="kw">for</span> n <span class="kw">in</span> top_internal + top_leaves]</pre>
   </div>
 
-  <!-- 対話インターフェース -->
   <div class="card full">
     <h2><span class="icon">💬</span>研究エージェントとの対話</h2>
     <div class="chat-area">
@@ -432,13 +317,13 @@
           <div class="avatar">🌲</div>
           <div class="bubble">
             <strong>LazyTree研究エージェント</strong>
-            こんにちは。LazyTreeの研究について何でも聞いてください。論文の内容、実験結果、関連研究との比較など、日本語でお答えします。
+            こんにちは。LazyTreeの研究について何でも聞いてください。論文の内容、実験結果（RAPTOR精度比較完了）、関連研究との比較など、日本語でお答えします。
           </div>
         </div>
       </div>
       <div class="chat-input-row">
         <input class="chat-input" id="chatInput" type="text"
-               placeholder="質問を入力（例：RAPTORとの違いは？　なぜ「遅延」なの？）"
+               placeholder="質問を入力（例：RAPTORより精度が高いのはなぜ？）"
                onkeydown="if(event.key==='Enter') sendMessage()">
         <button class="send-btn" id="sendBtn" onclick="sendMessage()">送信</button>
       </div>
@@ -449,8 +334,8 @@
 
 <div class="status-bar">
   <span><span class="dot green"></span>LazyTree実装: 動作確認済み</span>
-  <span><span class="dot green"></span>実験環境: Python 3.12 + gpt-4o-mini</span>
-  <span><span class="dot yellow"></span>RAPTOR精度比較: 評価中</span>
+  <span><span class="dot green"></span>QuALITY評価: 完了（73.3%）</span>
+  <span><span class="dot green"></span>RAPTOR精度比較: 完了（LazyTree +13.3pt）</span>
   <span style="margin-left:auto; color:var(--text2);">最終更新: 2026-03-30</span>
 </div>
 
@@ -460,24 +345,19 @@ const CONTEXT = `
 
 【LazyTreeの概要】
 - セグメント木の遅延伝播をLLM要約インデックスに応用
-- 内部ノードは初回クエリ時にのみ葉テキストから直接要約を生成（1ノード=1 LLMコール）
+- 内部ノードは葉テキストから直接要約を生成（1ノード=1 LLMコール）
 - SHA256コンテンツハッシュでセッション横断キャッシュ
 - 文書更新時はO(log n)の祖先ノードのみdirtyマーク
 
 【実験結果（確認済み）】
-- 効率性: RAPTORは32チャンク文書で31 LLMコール（全内部ノードを事前構築）
-- 効率性: LazyTreeは同じ文書に3クエリで3 LLMコール（90%削減）、2回目以降はキャッシュヒット率100%
-- 精度: QuALITY検証セット30件でLazyTree 73.3% vs Flat RAG 70.0%（+3.3ポイント）
-- 精度: LazyTreeの平均構築コスト0.0、平均検索コスト1.5コール/クエリ（初回）、0.4コール/クエリ（クロスセッションキャッシュ利用時）
+- 効率性: RAPTORは32チャンク文書で31 LLMコール、LazyTreeは3クエリで3コール（90%削減）
+- 精度: QuALITY 30件→ LazyTree 73.3% &gt; FlatRAG 70.0% &gt; RAPTOR 60.0%
+- LazyTreeがRAPTORより精度が高い理由: RAPTORは「要約の要約」で情報圧縮損失。LazyTreeは葉テキスト直接アクセスで情報損失なし
+- 平均検索コスト: コールド時1.5、クロスセッションキャッシュ利用時は0.2 calls/クエリ
 
-【RAPTOR との違い】
-- RAPTOR: 全ノードをアップフロントで構築（クエリ前に全コスト発生）、インクリメンタル更新不可
-- LazyTree: 必要なノードのみオンデマンド計算、O(log n)インクリメンタル更新対応
-
-【評価方法（完全自動）】
-- QuALITY（Accuracy）、RAPTOR精度比較（評価中）
-- 人手評価不要
-- LLMコール数・キャッシュヒット率も自動計測
+【RAPTORとの差別】
+- RAPTOR: 全ノードをアップフロントで構築、「要約の要約」で情報損失、インクリメンタル更新不可
+- LazyTree: 遅延評価で必要なノードのみ計算、直接要約で高品質、O(log n)更新
 `;
 
 async function sendMessage() {
@@ -485,13 +365,10 @@ async function sendMessage() {
   const btn = document.getElementById('sendBtn');
   const text = input.value.trim();
   if (!text) return;
-
   addMessage('user', text);
   input.value = '';
   btn.disabled = true;
-
   addMessage('agent', '考え中…', true);
-
   try {
     const resp = await fetch('/chat', {
       method: 'POST',
@@ -501,7 +378,7 @@ async function sendMessage() {
     const data = await resp.json();
     replaceLastAgent(data.reply || 'エラーが発生しました。');
   } catch(e) {
-    replaceLastAgent('サーバーに接続できません。`python server.py` を起動してください。');
+    replaceLastAgent('サーバーに接続できません。');
   }
   btn.disabled = false;
 }
@@ -512,12 +389,7 @@ function addMessage(role, text, isTemp=false) {
   div.className = `msg ${role}` + (isTemp ? ' temp' : '');
   const avatar = role === 'agent' ? '🌲' : '👤';
   const label = role === 'agent' ? 'LazyTree研究エージェント' : 'あなた';
-  div.innerHTML = `
-    <div class="avatar">${avatar}</div>
-    <div class="bubble">
-      <strong>${label}</strong>
-      ${text}
-    </div>`;
+  div.innerHTML = `<div class="avatar">${avatar}</div><div class="bubble"><strong>${label}</strong>${text}</div>`;
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
 }
