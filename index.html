@@ -6,17 +6,10 @@
 <title>LazyTree — 研究ダッシュボード</title>
 <style>
   :root {
-    --bg: #0f1117;
-    --bg2: #161b22;
-    --bg3: #1c2230;
-    --border: #30363d;
-    --text: #c9d1d9;
-    --text2: #8b949e;
-    --accent: #58a6ff;
-    --green: #3fb950;
-    --yellow: #d29922;
-    --red: #f85149;
-    --purple: #bc8cff;
+    --bg: #0f1117; --bg2: #161b22; --bg3: #1c2230;
+    --border: #30363d; --text: #c9d1d9; --text2: #8b949e;
+    --accent: #58a6ff; --green: #3fb950; --yellow: #d29922;
+    --red: #f85149; --purple: #bc8cff;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: -apple-system,'Segoe UI',sans-serif; font-size: 14px; line-height: 1.6; min-height: 100vh; }
@@ -99,7 +92,8 @@
       SHA256コンテンツハッシュで永続キャッシュされる。文書更新時はO(log n)の祖先ノードをdirtyマークするのみ。
       <br><br>
       <strong>効率性実験：</strong>RAPTORが31コールで全ツリーを事前構築するのに対し、LazyTreeは集中クエリを<strong>3コール（90%削減）</strong>で処理。<br>
-      <strong>精度実験：</strong>QuALITY 30件でLazyTree <strong>73.3%</strong> vs Flat RAG 66.7%（<strong>+6.6ポイント</strong>）、構築コスト0。
+      <strong>精度実験（QuALITY 30件）：</strong>LazyTree <strong>73.3%</strong> vs Flat RAG 70.0%（<strong>+3.3ポイント</strong>）、構築コスト0。
+      同一記事への繰り返しクエリではクロスセッションキャッシュにより平均<strong>0.4コール/クエリ</strong>まで低下。
     </div>
   </div>
 
@@ -123,9 +117,9 @@
     <h2><span>📊</span>実験結果（実測値）</h2>
     <div class="metrics">
       <div class="metric"><div class="value green">90%</div><div class="label">LLMコール削減率<br>（vs RAPTOR）</div></div>
-      <div class="metric"><div class="value blue">+6.6pt</div><div class="label">QuALITY精度向上<br>（vs Flat RAG）</div></div>
+      <div class="metric"><div class="value blue">+3.3pt</div><div class="label">QuALITY精度向上<br>（vs Flat RAG）</div></div>
       <div class="metric"><div class="value green">73.3%</div><div class="label">LazyTree正解率<br>（QuALITY 30件）</div></div>
-      <div class="metric"><div class="value yellow">0.4</div><div class="label">平均検索コール/クエリ<br>（ほぼキャッシュヒット）</div></div>
+      <div class="metric"><div class="value yellow">0.4</div><div class="label">キャッシュ活用時<br>コール/クエリ</div></div>
     </div>
     <br>
     <p style="font-size:12px;color:var(--text2);margin-bottom:8px;font-weight:600;">【効率性実験】32チャンク文書・第1章への3クエリ</p>
@@ -138,11 +132,14 @@
     <br>
     <p style="font-size:12px;color:var(--text2);margin-bottom:8px;font-weight:600;">【精度実験】QuALITY 検証セット 30件（4択QA・平均約5,000語/記事）</p>
     <table>
-      <tr><th>手法</th><th>正解率</th><th>平均構築コスト</th><th>平均検索コスト</th></tr>
-      <tr><td>Flat RAG</td><td class="neutral">66.7%</td><td class="neutral">0.0 calls</td><td class="neutral">0.0 calls</td></tr>
-      <tr><td><strong>LazyTree (ハイブリッド)</strong></td><td class="better"><strong>73.3%</strong></td><td class="better">0.0 calls</td><td class="better">0.4 calls</td></tr>
+      <tr><th>手法</th><th>正解率</th><th>平均構築コスト</th><th>初回検索コスト</th><th>キャッシュ活用時</th></tr>
+      <tr><td>Flat RAG</td><td class="neutral">70.0%</td><td class="neutral">0.0 calls</td><td class="neutral">0.0 calls</td><td class="neutral">0.0 calls</td></tr>
+      <tr><td><strong>LazyTree (ハイブリッド)</strong></td><td class="better"><strong>73.3%</strong></td><td class="better">0.0 calls</td><td class="neutral">1.5 calls</td><td class="better">0.4 calls</td></tr>
     </table>
-    <p style="margin-top:8px;font-size:11px;color:var(--text2);">※ ハイブリッド: 内部ノード3件＋葉ノード2件，λ=0，要約・QAともに gpt-4o-mini使用</p>
+    <p style="margin-top:8px;font-size:11px;color:var(--text2);">
+      ※ ハイブリッド: 内部ノード3件＋葉ノード2件，λ=0，要約・QAともに gpt-4o-mini使用<br>
+      ※ 初回検索コスト: キャッシュ空の状態。キャッシュ活用時: 同一記事への2回目以降のクエリ（クロスセッション永続キャッシュ）
+    </p>
   </div>
 
   <div class="card full">
@@ -171,7 +168,7 @@
 <div class="status-bar">
   <span><span class="dot green"></span>LazyTree実装: 動作確認済み（Python 3.12）</span>
   <span><span class="dot green"></span>効率性実験: 90%削減（実測）</span>
-  <span><span class="dot green"></span>QuALITY評価: 73.3% (+6.6pt)</span>
+  <span><span class="dot green"></span>QuALITY評価: 73.3% (+3.3pt)</span>
   <span style="margin-left:auto">最終更新: 2026-03-30</span>
 </div>
 
@@ -182,17 +179,18 @@ const CONTEXT = `
 【LazyTreeとは】
 セグメント木の「遅延伝播」をLLM要約インデックスに応用した手法。
 - 内部ノードは初回クエリ時にのみ、葉テキストから直接1 LLMコールで要約を生成
-- SHA256コンテンツハッシュでセッション横断キャッシュ（同一サブツリーへの再クエリは0コスト）
+- SHA256コンテンツハッシュでセッション横断永続キャッシュ（同一サブツリーへの再クエリは0コスト）
 - 文書更新時はO(log n)の祖先ノードのみdirtyマーク（RAPTORは全ツリー再構築が必要）
 
 【実験結果（確認済み）】
 - 効率性: 32チャンク文書で第1章（16チャンク）に3クエリ → LazyTree 3コール vs RAPTOR 31コール（90%削減）
 - 効率性: 2回目以降のクエリはキャッシュヒット率100%で0コール
-- 精度: QuALITY検証セット30件でLazyTree 73.3% vs Flat RAG 66.7%（+6.6ポイント）
-- 精度: LazyTreeの平均構築コスト0.0、平均検索コスト0.4コール/クエリ
+- 精度: QuALITY検証セット30件でLazyTree 73.3% vs Flat RAG 70.0%（+3.3ポイント）
+- 検索コスト（初回）: 1.5コール/クエリ（記事ごとの最初の質問で新規ノードを計算）
+- 検索コスト（キャッシュ活用）: 0.4コール/クエリ（同一記事への2回目以降の質問はほぼキャッシュヒット）
 
 【RAPTORとの違い】
-- RAPTOR: アップフロントで全ツリー構築、インクリメンタル更新不可
+- RAPTOR: アップフロントで全ツリー構築（クエリ前に全コスト発生）、インクリメンタル更新不可
 - LazyTree: 必要なノードのみオンデマンド計算、O(log n)更新対応、精度でも上回る
 
 【関連研究との差別化】
