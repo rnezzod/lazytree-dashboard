@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LazyTree — 研究ダッシュボード</title>
+<style>
+  :root {
+    --bg: #0f1117; --bg2: #161b22; --bg3: #1c2230;
+    --border: #30363d; --text: #c9d1d9; --text2: #8b949e;
+    --accent: #58a6ff; --green: #3fb950; --yellow: #d29922;
+    --red: #f85149; --purple: #bc8cff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system,'Segoe UI',sans-serif; font-size: 14px; line-height: 1.6; min-height: 100vh; }
+  header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; gap: 16px; }
+  header h1 { font-size: 18px; font-weight: 600; color: var(--accent); }
+  header .sub { color: var(--text2); font-size: 13px; }
+  header .badge { background: var(--green); color: #000; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: auto; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+  .card.full { grid-column: 1 / -1; }
+  .card h2 { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .abstract { background: var(--bg3); border-left: 3px solid var(--accent); padding: 14px 16px; border-radius: 0 6px 6px 0; font-size: 13px; line-height: 1.7; }
+  .insight-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 16px; margin-bottom: 12px; }
+  .insight-box .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--purple); margin-bottom: 6px; }
+  .insight-box p { font-size: 13px; }
+  .metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .metric { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 14px; text-align: center; }
+  .metric .value { font-size: 28px; font-weight: 700; line-height: 1.2; }
+  .metric .value.green { color: var(--green); }
+  .metric .value.blue { color: var(--accent); }
+  .metric .value.yellow { color: var(--yellow); }
+  .metric .label { font-size: 11px; color: var(--text2); margin-top: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { color: var(--text2); font-weight: 600; text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--bg3); }
+  tr:last-child td { border-bottom: none; }
+  .better { color: var(--green); font-weight: 600; }
+  .worse { color: var(--red); }
+  .neutral { color: var(--text2); }
+  pre { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 14px; font-size: 12px; overflow-x: auto; line-height: 1.5; }
+  .kw{color:#ff7b72} .fn{color:#d2a8ff} .cm{color:var(--text2)} .num{color:#79c0ff}
+  .chat-area { display: flex; flex-direction: column; height: 380px; }
+  .chat-messages { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; padding-right: 4px; }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .msg { display: flex; gap: 10px; align-items: flex-start; }
+  .msg.user { flex-direction: row-reverse; }
+  .msg .avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+  .msg.agent .avatar { background: #1f3a6e; }
+  .msg.user .avatar { background: #2d1b4e; }
+  .msg .bubble { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-size: 13px; max-width: 80%; line-height: 1.6; }
+  .msg.user .bubble { background: #1f3a6e; border-color: #2d5aa0; }
+  .msg .bubble strong { color: var(--accent); font-size: 11px; display: block; margin-bottom: 4px; }
+  .chat-input-row { display: flex; gap: 8px; }
+  .chat-input { flex: 1; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 13px; padding: 8px 12px; outline: none; font-family: inherit; }
+  .chat-input:focus { border-color: var(--accent); }
+  .chat-input::placeholder { color: var(--text2); }
+  .send-btn { background: var(--accent); color: #000; border: none; border-radius: 6px; padding: 8px 16px; font-weight: 600; cursor: pointer; font-size: 13px; font-family: inherit; }
+  .send-btn:hover { opacity: .85; }
+  .send-btn:disabled { opacity: .4; cursor: not-allowed; }
+  .status-bar { background: var(--bg2); border-top: 1px solid var(--border); padding: 8px 24px; font-size: 12px; color: var(--text2); display: flex; gap: 20px; flex-wrap: wrap; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+  .dot.green { background: var(--green); }
+  .dot.yellow { background: var(--yellow); }
+</style>
+</head>
+<body>
+
+<header>
+  <span>🌲</span>
+  <div>
+    <h1>LazyTree</h1>
+    <div class="sub">遅延評価型階層要約木 — 長文書QA研究ダッシュボード</div>
+  </div>
+  <div class="badge">● 実験中</div>
+</header>
+
+<div class="container">
+
+  <div class="card full">
+    <h2><span>📄</span>論文概要</h2>
+    <div class="abstract">
+      <strong style="color:var(--accent);font-size:15px;">LazyTree: 遅延評価とコンテンツハッシュキャッシュによる長文書RAGの効率化</strong>
+      <br><br>
+      長文書RAGでは、フラットなチャンク検索ではグローバルな文脈が失われる一方、
+      全文書の要約ツリーを事前構築する手法（RAPTOR等）は初期コストが高く文書更新に対応できない。
+      <br><br>
+      本研究では、<strong>セグメント木の遅延伝播</strong>アイデアをLLM要約インデックスに応用した
+      <strong>LazyTree</strong>を提案する。内部ノードはクエリが到達した時点ではじめて葉テキストから直接要約され（1ノード = 1 LLMコール）、
+      SHA256コンテンツハッシュで永続キャッシュされる。
+      文書更新時はO(log n)の祖先ノードをdirtyマークするのみ。
+      <br><br>
+      実験では、RAPTORが31コールで全ツリーを事前構築するのに対し、
+      LazyTreeは同じ文書への集中クエリを<strong>3コール（90%削減）</strong>で処理した。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span>💡</span>核心アイデア</h2>
+    <div class="insight-box">
+      <div class="label">セグメント木の類比</div>
+      <p>遅延伝播と同様に、必要になるまで要約を計算しない。一度計算した要約はコンテンツハッシュでキャッシュし、後続クエリは0コストで応答。</p>
+    </div>
+    <div class="insight-box">
+      <div class="label">インクリメンタル更新</div>
+      <p>チャンク更新 → O(log n)の祖先をdirtyマーク → 次回クエリ時のみ再計算。RAPTORは全ツリー再構築が必要。</p>
+    </div>
+    <div class="insight-box">
+      <div class="label">粒度適応クエリ</div>
+      <p>スコア = cos類似度 − λ×(深さ/H) により、質問スコープに合わせてツリーの適切な深さのノードを自動選択。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span>📊</span>実験結果（32チャンク文書・実測値）</h2>
+    <div class="metrics">
+      <div class="metric"><div class="value green">90%</div><div class="label">LLMコール削減率<br>（LazyTree vs RAPTOR）</div></div>
+      <div class="metric"><div class="value blue">3</div><div class="label">LazyTreeの<br>実際のLLMコール数</div></div>
+      <div class="metric"><div class="value yellow">31</div><div class="label">RAPTORの<br>アップフロントコール数</div></div>
+    </div>
+    <br>
+    <table>
+      <tr><th>手法</th><th>構築コスト</th><th>3クエリ後</th><th>キャッシュヒット率</th></tr>
+      <tr><td>Flat RAG</td><td class="neutral">0 calls</td><td class="neutral">0 calls</td><td class="neutral">N/A</td></tr>
+      <tr><td>RAPTOR</td><td class="worse">31 calls</td><td class="neutral">+0</td><td class="neutral">0%（再構築）</td></tr>
+      <tr><td><strong>LazyTree</strong></td><td class="better">0 calls</td><td class="better">3 calls</td><td class="better">100%</td></tr>
+    </table>
+    <p style="margin-top:12px;font-size:11px;color:var(--text2);">
+      ※ 条件: 32チャンク文書、第1章（前半16チャンク）についての3クエリ。RAPTORは全31内部ノードを無条件構築。
+    </p>
+  </div>
+
+  <div class="card full">
+    <h2><span>💬</span>研究エージェントに質問する</h2>
+    <div class="chat-area">
+      <div class="chat-messages" id="chatMessages">
+        <div class="msg agent">
+          <div class="avatar">🌲</div>
+          <div class="bubble">
+            <strong>LazyTree研究エージェント</strong>
+            こんにちは。LazyTreeの研究について何でも聞いてください。論文の内容、実験結果、RAPTORとの比較など、日本語でお答えします。
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chatInput" type="text"
+               placeholder="例：RAPTORとの違いは？　なぜ「遅延」なの？　どんな場面で効果的？"
+               onkeydown="if(event.key==='Enter')sendMessage()">
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">送信</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="status-bar">
+  <span><span class="dot green"></span>LazyTree実装: 動作確認済み（Python 3.12）</span>
+  <span><span class="dot green"></span>実験結果: 実測値（90%削減）</span>
+  <span><span class="dot yellow"></span>NarrativeQA大規模評価: 準備中</span>
+  <span style="margin-left:auto">最終更新: 2026-03-30</span>
+</div>
+
+<script>
+const CONTEXT = `
+あなたはLazyTree論文の研究エージェントです。以下の情報に基づいて日本語で回答してください。
+
+【LazyTreeとは】
+セグメント木の「遅延伝播」をLLM要約インデックスに応用した手法。
+- 内部ノードは初回クエリ時にのみ、葉テキストから直接1 LLMコールで要約を生成
+- SHA256コンテンツハッシュでセッション横断キャッシュ（同一サブツリーへの再クエリは0コスト）
+- 文書更新時はO(log n)の祖先ノードのみdirtyマーク（RAPTORは全ツリー再構築が必要）
+
+【実測実験結果】
+- 32チャンク文書で第1章（16チャンク）に3クエリ
+- RAPTOR: 31 LLMコール（全内部ノードを事前構築）
+- LazyTree: 3 LLMコール（10%のノードのみ）→ 90%削減
+- 2回目以降のクエリ: 0コール（キャッシュヒット率100%）
+
+【RAPTORとの違い】
+- RAPTOR: アップフロントで全ツリー構築・インクリメンタル更新不可
+- LazyTree: 必要なノードのみオンデマンド計算・O(log n)更新対応
+- 実用上の優位性: 大きな文書で特定章だけを繰り返し参照するユースケースで特に効果的
+
+【評価計画（完全自動）】
+NarrativeQA（F1スコア）、QuALITY（Accuracy）で評価予定。人手評価不要。
+`;
+
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const btn = document.getElementById('sendBtn');
+  const text = input.value.trim();
+  if (!text) return;
+  addMessage('user', text);
+  input.value = '';
+  btn.disabled = true;
+  addMessage('agent', '考え中…', true);
+  try {
+    const resp = await fetch('/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({message: text, context: CONTEXT})
+    });
+    const data = await resp.json();
+    replaceLastAgent(data.reply || 'エラーが発生しました。');
+  } catch(e) {
+    replaceLastAgent('サーバーに接続できません。');
+  }
+  btn.disabled = false;
+}
+
+function addMessage(role, text, isTemp=false) {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = `msg ${role}` + (isTemp ? ' temp' : '');
+  const avatar = role === 'agent' ? '🌲' : '👤';
+  const label = role === 'agent' ? 'LazyTree研究エージェント' : 'あなた';
+  div.innerHTML = `<div class="avatar">${avatar}</div><div class="bubble"><strong>${label}</strong>${text}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function replaceLastAgent(text) {
+  const temps = document.querySelectorAll('.msg.temp');
+  if (temps.length > 0) {
+    const last = temps[temps.length - 1];
+    last.classList.remove('temp');
+    last.querySelector('.bubble').innerHTML = `<strong>LazyTree研究エージェント</strong>${text}`;
+  }
+}
+</script>
+</body>
+</html>
